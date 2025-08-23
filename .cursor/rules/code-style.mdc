@@ -1,0 +1,15 @@
+---
+description: "Language, style & dependency ground rules"
+globs:
+alwaysApply: true
+---
+
+- **Python 3.10+, PEP 8, `black`** (88 cols) + `ruff` for lint; mandatory type-hints everywhere.  
+- **Project Layout**  
+  `app/` (FastAPI), `rl/` (env & agents), `schemas/`, `experiments/`, `tests/`.  
+- **Dependencies**  
+  `fastapi`, `uvicorn`, `pydantic`, `stable-baselines3`, `gymnasium`, `wandb`, plus existing libs already in the repo. Lock with `poetry`.  
+- **Testing**  
+  `pytest -q`; ≥ 90 % coverage on `rl/` and `schemas/`.  
+- **Docstrings**  
+  NumPy style; every public class/function must include *Args*, *Returns*, *Raises*, *Example*.  

@@ -1,0 +1,61 @@
+---
+description: "Stencil UI: minimal-change web components + backend integration"
+globs:
+alwaysApply: true
+---
+
+## Scope & goals
+- Keep the existing **Stencil Component Starter** structure and scripts (`npm start`, `npm run build`, `npm test`). Only make non-breaking edits. :contentReference[oaicite:0]{index=0}
+- Ship **standalone Web Components** that work in any app with minimal host wiring, preferring lazy-loading via `dist` or per-component usage via `dist-custom-elements`. :contentReference[oaicite:1]{index=1}
+
+## Build output & naming (no refactors unless necessary)
+- In `stencil.config.ts`, enable both:
+  - `outputTargets: [{ type: 'dist' }, { type: 'dist-custom-elements' }]` so consumers can either import the bootstrap bundle or single components. :contentReference[oaicite:2]{index=2}
+- Use a unique component prefix; **do not** use `stencil-`. Prefer `fairy-` (e.g., `<fairy-story />`, `<fairy-generate />`). :contentReference[oaicite:3]{index=3}
+- Keep tags stable to avoid breaking consumers; any rename requires a deprecation alias (document in CHANGELOG).
+
+## Component contract (props, events, slots)
+- **Props** (`@Prop`) for host-app wiring:
+  - `apiBaseUrl: string` (required)
+  - `accessToken?: string` (if the host injects a Bearer token)
+  - `characterId?: string`, `locale?: string`, `length?: 'short'|'medium'|'long'`
+  - All props are **reflect**-capable when useful and validated before network calls. :contentReference[oaicite:4]{index=4}
+- **Events** (`@Event`) so hosts can integrate auth and telemetry without forking:
+  - `authRequested` → fired when no/expired token; host should respond by calling a public method or re-rendering with a fresh token.
+  - `storyRequested` (detail: request payload), `storyReceived` (detail: story markdown/JSON), `storyFailed` (detail: normalised error).
+  - Name DOM-listener attributes with `onX` (e.g., `onStoryReceived`). :contentReference[oaicite:5]{index=5}
+- **Slots**: default slot for container content; CSS parts for theming (don’t break Shadow DOM).
+
+## Backend integration (fetch, CORS, auth) — minimal & safe
+- Perform network calls with the **Fetch API**; never introduce extra HTTP libs. Use `fetch()` with abort controllers and timeouts. :contentReference[oaicite:6]{index=6}
+- If `accessToken` is not provided or a call returns `401`, emit `authRequested` and **do not** store tokens internally. The host is responsible for obtaining tokens (e.g., OAuth 2.0 **Authorization Code + PKCE** for browser apps). :contentReference[oaicite:7]{index=7}
+- Document required backend CORS headers; backend must set `Access-Control-Allow-Origin` (specific origins) and required preflight headers. UI should surface clear errors for CORS failures. :contentReference[oaicite:8]{index=8}
+- Requests:
+  - `POST {apiBaseUrl}/v1/tale` with JSON `{ locale, length, characterId, ... }`, `Authorization: Bearer <token>` if provided.
+  - Gracefully handle `429`/rate-limit headers with exponential backoff; emit `storyFailed` with `retryAfter` if present.
+
+## State management (lightweight)
+- Prefer local `@State()` for component internals and **@stencil/store** for cross-component state only if needed (e.g., shared loading indicators). Keep store surface tiny. :contentReference[oaicite:9]{index=9}
+
+## Authoring & theming
+- Use `@Component({ shadow: true, styleUrl: 'x.css' })`; expose CSS parts/tokens to theme without breaking encapsulation. Keep assets under `src/components/*/assets`. :contentReference[oaicite:10]{index=10}
+- Maintain small, single-responsibility components (render story text, trigger generation, show loader). Avoid cross-cutting DOM manipulation.
+
+## Usage patterns (align with README)
+- **Lazy-loading bundle** (dist): allow `<script type="module" src="https://unpkg.com/<namespace>"></script>` then `<fairy-story .../>` on any page. :contentReference[oaicite:11]{index=11}
+- **Standalone import** (dist-custom-elements): permit `import '@namespace/fairy-story';` within framework apps for tree-shaken usage. :contentReference[oaicite:12]{index=12}
+
+## Accessibility & i18n
+- Expose ARIA roles/labels from props; forward `lang` to internal nodes; no text hard-coded—accept strings via props or slots to enable host i18n systems.
+
+## Testing (don’t change existing tooling)
+- Keep Stencil’s Jest-based tests; add spec tests for:
+  - prop validation, event emission, and fetch error states (use `newSpecPage()` + mocked `fetch`). Consider E2E for event wiring. :contentReference[oaicite:13]{index=13}
+- No framework-specific test harnesses required; prefer WebdriverIO/Playwright only for cross-browser E2E if needed. :contentReference[oaicite:14]{index=14}
+
+## Performance & DX
+- Defer network work until component is connected and **required props are present**.
+- Keep bundles lean; prefer `dist-custom-elements` in app integrations for tree-shaking. :contentReference[oaicite:15]{index=15}
+
+## Rule upkeep
+- If output targets, tag prefix, or API contract change, run `/Generate Cursor Rules --target ui-stencil` and update this file in the same PR.

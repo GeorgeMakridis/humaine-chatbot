@@ -1,0 +1,113 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "Response Feedback",
+    "required": [
+        "session_id",
+        "user_id",
+        "response_text",
+        "response_start_time",
+        "response_end_time",
+        "response_duration",
+        "feedback_type",
+        "feedback_time",
+        "feedback_delay_duration"
+    ],
+    "properties": {
+        "session_id": {
+            "type": "string",
+            "default": "",
+            "title": "Session Id",
+            "description": "Unique session identifier (Version 4 UUID).",
+            "examples": [
+                "d5d539b8-cc6c-48e9-9454-ff1c69933ec8"
+            ]
+        },
+        "user_id": {
+            "type": "string",
+            "default": "",
+            "title": "The user_id Schema",
+            "description": "Unique user identifier (Version 4 UUID)",
+            "examples": [
+                "2b5516f1-df98-4408-8640-ba156e7d0197"
+            ]
+        },
+        "response_text": {
+            "type": "string",
+            "default": "",
+            "title": "Response Text",
+            "description": "The text content of the bot's response to the user.",
+            "examples": [
+                "Thank you for your input! Please rate your experience."
+            ]
+        },
+        "response_start_time": {
+            "type": "integer",
+            "format": "date-time",
+            "title": "Response Start Time",
+            "description": "The timestamp (in Unix format) when the request for the response was made.",
+            "examples": [
+                1619112399000
+            ]
+        },
+        "response_end_time": {
+            "type": "integer",
+            "format": "date-time",
+            "title": "Response End Time",
+            "description": "The timestamp (in Unix format) when the bot's response was received by the user.",
+            "examples": [
+                1619112401000
+            ]
+        },
+        "response_duration": {
+            "type": "integer",
+            "description": "The duration (in milliseconds) it took for the bot's response to be delivered.",
+            "examples": [
+                2000
+            ]
+        },
+        "feedback_type": {
+            "type": "string",
+            "enum": [
+                "positive",
+                "negative"
+            ],
+            "title": "Feedback Type",
+            "description": "The type of feedback the user provided.",
+            "examples": [
+                "positive",
+                "negative"
+            ]
+        },
+        "feedback_time": {
+            "type": "integer",
+            "format": "date-time",
+            "title": "Feedback Time",
+            "description": "The timestamp (in Unix format) when the user submitted the feedback.",
+            "examples": [
+                1619112450000
+            ]
+        },
+        "feedback_delay_duration": {
+            "type": "integer",
+            "description": "The duration (in milliseconds) between the bot's message being delivered and the user submitting feedback.",
+            "examples": [
+                4000
+            ]
+        }
+    },
+    "examples": [
+        {
+            "session_id": "d5d539b8-cc6c-48e9-9454-ff1c69933ec8",
+            "user_id": "2b5516f1-df98-4408-8640-ba156e7d0197",
+            "response_text": "Thank you for your input! Please rate your experience.",
+            "response_start_time": 1619112399000,
+            "response_end_time": 1619112401000,
+            "response_duration": 2000,
+            "feedback_type": "positive",
+            "feedback_time": 1619112450000,
+            "feedback_delay_duration": 4000
+        }
+    ]
+}

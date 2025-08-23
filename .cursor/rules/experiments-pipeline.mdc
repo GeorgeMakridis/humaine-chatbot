@@ -1,0 +1,20 @@
+---
+description: "Reproducible experimentation, metrics & papers"
+globs:
+alwaysApply: true
+---
+
+- **Data Split**  
+  Synthetic persona pre-train → 80 % train, 10 % val, 10 % test. Real-user study → stratified split by domain (finance, health, edu).  
+- **Tracking**  
+  Use `wandb` project `humane_rl_profiler`; log reward, loss curves, and custom metrics (`feedback_ratio`, `return_sessions`).  
+- **Baselines**  
+  Baseline A: rule-based fixed persona; Baseline B: supervised-only profiler with no online RL. Compare via paired-sample t-test.:contentReference[oaicite:7]{index=7}  
+- **Stat-Sig**  
+  Run minimum 30 participants per condition for 0.8 power at α = 0.05 based on prior variance estimates.  
+- **Ablations**  
+  Remove each reward component (engagement, likes, dislikes) and report Δ return.  
+- **Export**  
+  Auto-generate `results_[date].csv` + `plots.png`; push to `/paper/figures/`.  
+- **CI**  
+  GitHub Actions job `exp-test` triggers on PRs touching `experiments/**`; runs smoke simulation for 100 episodes; must pass before merge.  

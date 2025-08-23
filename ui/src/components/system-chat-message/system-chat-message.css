@@ -1,0 +1,11 @@
+:host {
+    display: flex;
+}
+
+.container {
+    white-space: pre-line;
+    display: inline-block;
+    padding: 10px 15px;
+    margin-left: 16px;
+    margin-bottom: 16px;
+}

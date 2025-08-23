@@ -1,0 +1,44 @@
+# Evaluation System Requirements
+# Core dependencies for virtual persona generation and conversation simulation
+
+# OpenAI API for persona generation and conversation simulation
+openai>=1.0.0
+
+# Async HTTP client for API calls
+aiohttp>=3.8.0
+
+# Data analysis and visualization
+pandas>=1.5.0
+numpy>=1.21.0
+matplotlib>=3.5.0
+seaborn>=0.11.0
+
+# HTTP requests for backend health checks
+requests>=2.28.0
+
+# Environment variable management
+python-dotenv>=0.19.0
+
+# Path handling
+pathlib2>=2.3.0
+
+# Async support
+asyncio-compat>=0.1.0
+
+# Data validation and serialization
+pydantic>=1.10.0
+
+# Statistical analysis
+scipy>=1.9.0
+
+# Machine learning utilities (if needed for advanced analysis)
+scikit-learn>=1.1.0
+
+# Jupyter support (optional, for interactive analysis)
+jupyter>=1.0.0
+notebook>=6.4.0
+
+# Additional utilities
+tqdm>=4.64.0  # Progress bars
+colorama>=0.4.0  # Colored terminal output
+

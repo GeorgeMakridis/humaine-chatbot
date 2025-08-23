@@ -1,0 +1,9 @@
+---
+description: "Let Cursor update these rules as the project evolves"
+globs:
+alwaysApply: true
+---
+
+- **Self-audit** — if Cursor notices new recurring patterns (e.g., swapped reward weights, renamed endpoints), it must run `/Generate Cursor Rules` to patch or append rules.:contentReference[oaicite:8]{index=8}  
+- **Versioning** — place rule changes in their own PR labeled `type/rules`; reviewers can diff guidelines like normal code.  
+- **Deprecation** — when a rule becomes obsolete, mark with `DEPRECATED:` header and schedule removal in the next minor version.  

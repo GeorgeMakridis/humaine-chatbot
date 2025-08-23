@@ -1,0 +1,22 @@
+---
+description: "Design the reinforcement-learning user-profiling stack"
+globs:
+alwaysApply: true
+---
+
+- **Core Algorithm**  
+  Use *Proximal Policy Optimization (PPO)* for on-line policy updates; clip ratio 0.2; GAEs λ = 0.95; 4 epochs per batch.:contentReference[oaicite:0]{index=0}  
+- **Frameworks**  
+  Implement with **Stable-Baselines 3** PPO for reliability and built-in callbacks.:contentReference[oaicite:1]{index=1}  
+  Wrap the environment in **OpenAI Gym** API style so SB3 can train and evaluate.:contentReference[oaicite:2]{index=2}  
+- **Environment**  
+  Create a custom `HumAIneUserEnv` that emits state vectors built from implicit & explicit metrics (see paper Tables I–II).  
+- **Virtual-Persona Bootstrap**  
+  Pre-train the value and policy networks with synthetic trajectories generated from Anthology backstories to speed up convergence.:contentReference[oaicite:4]{index=4}  
+- **Reward**  
+  Compute `r_t = 0.3·engagement + 0.3·positive_feedback – 0.4·negative_feedback`, then normalize to [-1, 1]. Tune weights during ablation. Use engagement proxies defined in the pdf (session duration, typing speed).  
+- **Model Check-points & Roll-backs**  
+  Save checkpoints every 5 updates and keep the three best models by average episodic return to allow quick rollback if a new policy degrades UX.  
+- **Observation & Action Masks**  
+  If a user’s explicit privacy settings disable a metric, mask that feature in the observation; PPO must learn with missing-feature dropout.
+

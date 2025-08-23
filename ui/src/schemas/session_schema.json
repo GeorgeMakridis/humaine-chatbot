@@ -1,0 +1,444 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "Session",
+    "required": [
+        "session_id",
+        "user_id",
+        "session_start",
+        "session_end",
+        "session_end_type",
+        "session_duration",
+        "engagement",
+        "feedback",
+        "response_time",
+        "sentiment",
+        "grammar",
+        "language_complexity",
+        "typing_speed"
+    ],
+    "properties": {
+        "session_id": {
+            "type": "string",
+            "default": "",
+            "title": "Session Id",
+            "description": "Unique session identifier (Version 4 UUID).",
+            "examples": [
+                "d5d539b8-cc6c-48e9-9454-ff1c69933ec8"
+            ]
+        },
+        "user_id": {
+            "type": "string",
+            "default": "",
+            "title": "The user_id Schema",
+            "description": "Unique user identifier (Version 4 UUID)",
+            "examples": [
+                "2b5516f1-df98-4408-8640-ba156e7d0197"
+            ]
+        },
+        "session_start": {
+            "type": "integer",
+            "default": 0,
+            "title": "Session Start Time",
+            "description": "Unix timestamp (ms) when the session starts.",
+            "examples": [
+                1737365162
+            ]
+        },
+        "session_end": {
+            "type": "integer",
+            "default": 0,
+            "title": "Session End Time",
+            "description": "Unix timestamp (ms) when the session ends.",
+            "examples": [
+                1737365162
+            ]
+        },
+        "session_end_type": {
+            "type": "string",
+            "default": "",
+            "title": "Session End Type",
+            "description": "Reason for session termination: User Action: The session ends when the user explicitly closes the chatbot window. Inactivity Timeout: If the user is inactive for a predefined time (e.g., 5 minutes), the session can be considered ended. Task Completion: The session ends when the chatbot marks a query or task as solved.",
+            "enum": [
+                "userAction",
+                "inactivity",
+                "taskCompletion"
+            ]
+        },
+        "session_duration": {
+            "type": "integer",
+            "default": 0,
+            "title": "Session Duration",
+            "description": "Session duration (ms) calculated as session_end - session_start"
+        },
+        "engagement": {
+            "type": "object",
+            "default": {},
+            "title": "Engagement",
+            "required": [
+                "idle_time",
+                "active_time",
+                "engagement_time"
+            ],
+            "properties": {
+                "idle_time": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "Idle Time",
+                    "description": "Total time (ms) during the session when the user was inactive, calculated as the sum of time gaps between consecutive messages that exceed a predefined threshold (e.g., 5 seconds)."
+                },
+                "active_time": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "Active Time",
+                    "description": "Total time (ms) during the session when the user was active, calculated as the difference between the session duration and the idle time."
+                },
+                "engagement_time": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "Engagement Time",
+                    "description": "Total time (ms) spent interacting during the session, calculated as the sum of all periods when the user is typing or the chatbot is replying."
+                }
+            },
+            "examples": [
+                {
+                    "idle_time": 0,
+                    "active_time": 0,
+                    "engagement_time": 0
+                }
+            ]
+        },
+        "feedback": {
+            "type": "object",
+            "default": {},
+            "title": "Feedback Data",
+            "required": [
+                "total_feedback_count",
+                "total_bot_messages_count",
+                "total_feedback_ratio",
+                "positive_feedback_count",
+                "positive_feedback_ratio",
+                "negative_feedback_count",
+                "negative_feedback_ratio",
+                "positive_follow_up_count",
+                "feedback_incorporation_rate"
+            ],
+            "properties": {
+                "total_feedback_count": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "Total Feedback",
+                    "description": "Total number of feedback instances (positive and negative) provided by the user in response to bot messages."
+                },
+                "total_bot_messages_count": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "Total Bot Messages",
+                    "description": "Total number of messages sent by the chatbot during the session."
+                },
+                "total_feedback_ratio": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Total Feedback Ratio",
+                    "description": "Ratio of feedback messages (both positive and negative) to the total bot messages.",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "positive_feedback_count": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "Total Positive Feedback",
+                    "description": "Total number of bot messages that received positive feedback from the user."
+                },
+                "positive_feedback_ratio": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Positive Feedback Ratio",
+                    "description": "Ratio of bot messages that received positive feedback from the user.",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "negative_feedback_count": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "Total Negative Feedback",
+                    "description": "Total number of bot messages that received negative feedback from the user."
+                },
+                "negative_feedback_ratio": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Negative Feedback Ratio",
+                    "description": "Ratio of bot messages that received negative feedback from the user.",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "positive_follow_up_count": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "Positive Follow Up Count",
+                    "description": "Number of instances where the chatbot's response to negative feedback received positive follow-up feedback."
+                },
+                "feedback_incorporation_rate": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Feedback Incorporation Rate",
+                    "description": "Proportion of negative feedback instances that were followed by positive feedback.",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "examples": [
+                {
+                    "total_feedback_count": 0,
+                    "total_bot_messages_count": 0,
+                    "total_feedback_ratio": 0,
+                    "positive_feedback_count": 0,
+                    "positive_feedback_ratio": 0,
+                    "negative_feedback_count": 0,
+                    "negative_feedback_ratio": 0,
+                    "positive_follow_up_count": 0,
+                    "feedback_incorporation_rate": 0
+                }
+            ]
+        },
+        "response_time": {
+            "type": "object",
+            "title": "User Response Time",
+            "required": [
+                "average_user_response_time",
+                "average_user_typing_start_time"
+            ],
+            "properties": {
+                "average_user_response_time": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Average Response Time",
+                    "description": "Average time (ms) taken by users to respond to chatbot messages, calculated over a set of messages."
+                },
+                "average_user_typing_start_time": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Average Typing Start Time",
+                    "description": "Average time (ms) taken by the user to start typing their response after receiving a bot message."
+                }
+            },
+            "examples": [
+                {
+                    "average_user_response_time": 0,
+                    "average_user_typing_start_time": 0
+                }
+            ]
+        },
+        "sentiment": {
+            "type": "object",
+            "default": {},
+            "title": "Sentiment Score Analysis",
+            "required": [
+                "average_sentiment_score",
+                "average_normalized_sentiment_score"
+            ],
+            "properties": {
+                "average_sentiment_score": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "Average Sentiment Score",
+                    "examples": [
+                        0
+                    ],
+                    "description": "Average sentiment score across a session It is the sum of individual message sentiment scores divided by the total number of messages.",
+                    "minimum": -5,
+                    "maximum": 5
+                },
+                "average_normalized_sentiment_score": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "Average Normalized Sentiment Score",
+                    "examples": [
+                        0
+                    ],
+                    "description": "Average normalized sentiment score, calculated by averaging the comparative sentiment scores across sessions.",
+                    "minimum": -5,
+                    "maximum": 5
+                }
+            },
+            "examples": [
+                {
+                    "average_sentiment_score": 0,
+                    "average_normalized_sentiment_score": 0
+                }
+            ]
+        },
+        "grammar": {
+            "type": "object",
+            "default": {},
+            "title": "Grammar Analysis",
+            "required": [
+                "average_total_words_count",
+                "average_mistakes_count",
+                "average_grammatical_mistakes_frequency"
+            ],
+            "properties": {
+                "average_total_words_count": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Average Total Words Count",
+                    "examples": [
+                        0
+                    ],
+                    "description": "Average number of words in the user messages across a session.",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "average_mistakes_count": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Average Mistakes Count",
+                    "examples": [
+                        0
+                    ],
+                    "description": "Average number of grammatical mistakes in user messages across a session.",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "average_grammatical_mistakes_frequency": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Average Grammatical Mistakes Frequency",
+                    "examples": [
+                        0
+                    ],
+                    "description": "Average grammatical mistakes frequency in user messages across a session.",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "examples": [
+                {
+                    "average_total_words_count": 0,
+                    "average_mistakes_count": 0,
+                    "average_grammatical_mistakes_frequency": 0
+                }
+            ]
+        },
+        "language_complexity": {
+            "type": "object",
+            "title": "Complexity of Language",
+            "required": [
+                "average_message_average_sentence_length",
+                "average_type_token_ratio",
+                "average_complexity_of_language"
+            ],
+            "properties": {
+                "average_message_average_sentence_length": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Average Sentence Length",
+                    "description": "Average sentence length of the user's messages calculated across all messages in a session."
+                },
+                "average_type_token_ratio": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Average Type-Token Ratio",
+                    "description": "Average type-token ratio of unique words in the user's messages calculated across all messages in a session."
+                },
+                "average_complexity_of_language": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Average Complexity of Language",
+                    "description": "Average complexity of the user's language calculated across all messages in a session."
+                }
+            },
+            "examples": [
+                {
+                    "average_sentence_length": 0,
+                    "average_type_token_ratio": 0,
+                    "average_complexity_of_language": 0
+                }
+            ]
+        },
+        "typing_speed": {
+            "type": "object",
+            "title": "Typing Speed Analysis",
+            "required": [
+                "average_duration",
+                "average_message_length",
+                "average_typing_speed"
+            ],
+            "properties": {
+                "average_duration": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Average Duration",
+                    "description": "Mean duration across all messages in the session."
+                },
+                "average_message_length": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Average Message Length",
+                    "description": "Mean message length across all messages in the session."
+                },
+                "average_typing_speed": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Average Typing Speed",
+                    "description": "Mean typing speed across all messages in the session."
+                }
+            },
+            "examples": [
+                {
+                    "average_duration": 0,
+                    "average_message_length": 0,
+                    "average_typing_speed": 0
+                }
+            ]
+        }
+    },
+    "examples": [
+        {
+            "session_id": "d5d539b8-cc6c-48e9-9454-ff1c69933ec8",
+            "user_id": "2b5516f1-df98-4408-8640-ba156e7d0197",
+            "session_start": 1737365162000,
+            "session_end": 1737368762000,
+            "session_end_type": "taskCompletion",
+            "session_duration": 3600000,
+            "engagement": {
+                "idle_time": 5000,
+                "active_time": 15000,
+                "engagement_time": 20000
+            },
+            "feedback": {
+                "total_feedback_count": 5,
+                "total_bot_messages_count": 10,
+                "total_feedback_ratio": 0.5,
+                "positive_feedback_count": 3,
+                "positive_feedback_ratio": 0.6,
+                "negative_feedback_count": 2,
+                "negative_feedback_ratio": 0.4,
+                "positive_follow_up_count": 1,
+                "feedback_incorporation_rate": 0.8
+            },
+            "response_time": {
+                "average_user_response_time": 1200,
+                "average_user_typing_start_time": 500
+            },
+            "sentiment": {
+                "average_sentiment_score": 2,
+                "average_normalized_sentiment_score": 3
+            },
+            "grammar": {
+                "average_total_words_count": 350,
+                "average_mistakes_count": 2,
+                "average_grammatical_mistakes_frequency": 0.06
+            },
+            "language_complexity": {
+                "average_message_average_sentence_length": 15,
+                "average_type_token_ratio": 0.85,
+                "average_complexity_of_language": 0.75
+            },
+            "typing_speed": {
+                "average_words_per_minute": 40
+            }
+        }
+    ]
+}

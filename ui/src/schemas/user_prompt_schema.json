@@ -1,0 +1,310 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "User prompt",
+    "required": [
+        "session_id",
+        "user_id",
+        "input_text",
+        "input_start_time",
+        "input_end_time",
+        "input_sent_time",
+        "response_time",
+        "sentiment",
+        "grammar",
+        "language_complexity",
+        "typing_speed"
+    ],
+    "properties": {
+        "session_id": {
+            "type": "string",
+            "default": "",
+            "title": "Session Id",
+            "description": "Unique session identifier (Version 4 UUID).",
+            "examples": [
+                "d5d539b8-cc6c-48e9-9454-ff1c69933ec8"
+            ]
+        },
+        "user_id": {
+            "type": "string",
+            "default": "",
+            "title": "The user_id Schema",
+            "description": "Unique user identifier (Version 4 UUID)",
+            "examples": [
+                "2b5516f1-df98-4408-8640-ba156e7d0197"
+            ]
+        },
+        "input_text": {
+            "type": "string",
+            "default": 0,
+            "title": "Input Text",
+            "description": "Text of the prompt."
+        },
+        "input_start_time": {
+            "type": "integer",
+            "default": 0,
+            "title": "Input Start Time",
+            "description": "Unix timestamp (ms) when the user began typing the prompt.",
+            "examples": [
+                1737365162
+            ]
+        },
+        "input_end_time": {
+            "type": "integer",
+            "default": 0,
+            "title": "Input End Time",
+            "description": "Unix timestamp (ms) when the user finished typing the prompt.",
+            "examples": [
+                1737365162
+            ]
+        },
+        "input_sent_time": {
+            "type": "integer",
+            "default": 0,
+            "title": "Input Sent Time",
+            "description": "Unix timestamp (ms) when the message was sent.",
+            "examples": [
+                1737365162
+            ]
+        },
+        "response_time": {
+            "type": "object",
+            "title": "User Response Time",
+            "required": [
+                "user_response_time",
+                "user_typing_start_time"
+            ],
+            "properties": {
+                "user_response_time": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "Response Time",
+                    "description": "Time (ms) taken by the user to respond after receiving a chatbot message. This is calculated by measuring the time gap between the bot's message timestamp and the timestamp when the user sends their message."
+                },
+                "user_typing_start_time": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "Typing Start Time",
+                    "description": "Time (ms) taken by the user to start typing their response after receiving a bot message. This is measured from the moment the chatbot message is sent to the moment the user begins typing."
+                }
+            },
+            "examples": [
+                {
+                    "user_response_time": 0,
+                    "user_typing_start_time": 0
+                }
+            ]
+        },
+        "sentiment": {
+            "type": "object",
+            "default": {},
+            "title": "Sentiment Score Analysis",
+            "required": [
+                "sentiment_score",
+                "normalized_sentiment_score"
+            ],
+            "properties": {
+                "sentiment_score": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "Sentiment Score",
+                    "examples": [
+                        0
+                    ],
+                    "description": "Emotional score of the user message, calculated by matching words and emojis to a pre-rated list of tokens (from -5 for negative to +5 for positive) and summing the individual token scores.",
+                    "minimum": -5,
+                    "maximum": 5
+                },
+                "normalized_sentiment_score": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "Normalized Sentiment Score",
+                    "examples": [
+                        0
+                    ],
+                    "description": "Comparative emotional score of the user message, calculated by dividing the sum of recognized token scores by the total number of tokens in the message, offering a normalized sentiment score relative to message length.",
+                    "minimum": -5,
+                    "maximum": 5
+                }
+            },
+            "examples": [
+                {
+                    "sentiment_score": 0,
+                    "normalized_sentiment_score": 0
+                }
+            ]
+        },
+        "grammar": {
+            "type": "object",
+            "default": {},
+            "title": "Grammar Analysis",
+            "required": [
+                "total_words_count",
+                "mistakes_count",
+                "grammatical_mistakes_frequency"
+            ],
+            "properties": {
+                "total_words_count": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "Total Words Count",
+                    "examples": [
+                        0
+                    ],
+                    "description": "Total number of words in the user's message, used to calculate the grammatical mistakes frequency relative to the message's length."
+                },
+                "mistakes_count": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "Mistakes Count",
+                    "examples": [
+                        0
+                    ],
+                    "description": "Total number of grammatical mistakes identified in the user's message, based on grammar checks."
+                },
+                "grammatical_mistakes_frequency": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Grammatical Mistakes Frequency",
+                    "examples": [
+                        0
+                    ],
+                    "description": "Frequency of grammatical mistakes in the user's message, calculated as the ratio of grammatical mistakes to the total number of words in the message.",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "examples": [
+                {
+                    "total_words_count": 0,
+                    "mistakes_count": 0,
+                    "grammatical_mistakes_frequency": 0
+                }
+            ]
+        },
+        "language_complexity": {
+            "type": "object",
+            "title": "Complexity of Language",
+            "required": [
+                "message_average_sentence_length",
+                "type_token_ratio",
+                "complexity_of_language"
+            ],
+            "properties": {
+                "message_average_sentence_length": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "Average Sentence Length",
+                    "description": "Average length of sentences in the user's message, calculated as the total number of words divided by the number of sentences in the message."
+                },
+                "message_average_sentence_length_weight": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Average Sentence Length Weight",
+                    "description": "Specifies how much influence the average length of sentences in the user's language contributes to the composite score.",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "type_token_ratio": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Type-Token Ratio",
+                    "description": "Ratio of unique words (types) to the total number of words (tokens) in the user's message.",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "type_token_ratio_weight": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Type-Token Ratio Weight",
+                    "description": "Specifies how much influence the type-token ratio in the user's language contributes to the composite score.",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "complexity_of_language": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Complexity of Language",
+                    "description": "Composite score that reflects the overall complexity of the user's language, calculated using the weighted combination of average sentence length and type-token ratio."
+                }
+            },
+            "examples": [
+                {
+                    "message_average_sentence_length": 0,
+                    "type_token_ratio": 0,
+                    "complexity_of_language": 0
+                }
+            ]
+        },
+        "typing_speed": {
+            "type": "object",
+            "title": "Typing Speed Analysis",
+            "required": [
+                "duration",
+                "message_length",
+                "typing_speed"
+            ],
+            "properties": {
+                "duration": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "Duration",
+                    "description": "Total time (ms) it takes for the user to type and send their message, measured from the moment they start typing until they send the message."
+                },
+                "message_length": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "Message Length",
+                    "description": "Total number of characters in the user’s message, used to assess the length of the message in relation to typing speed."
+                },
+                "typing_speed": {
+                    "type": "number",
+                    "default": 0,
+                    "title": "Typing Speed",
+                    "description": "Speed (characters per second) at which the user types, calculated as the message length divided by the duration in seconds."
+                }
+            },
+            "examples": [
+                {
+                    "duration": 0,
+                    "message_length": 0,
+                    "typing_speed": 0
+                }
+            ]
+        }
+    },
+    "examples": [
+        {
+            "session_id": "d5d539b8-cc6c-48e9-9454-ff1c69933ec8",
+            "user_id": "2b5516f1-df98-4408-8640-ba156e7d0197",
+            "input_text": "How are you doing today?",
+            "input_start_time": 1737365162000,
+            "input_end_time": 1737365168000,
+            "input_sent_time": 1737365170000,
+            "response_time": {
+                "user_response_time": 1200,
+                "user_typing_start_time": 500
+            },
+            "sentiment": {
+                "sentiment_score": 2,
+                "normalized_sentiment_score": 1
+            },
+            "grammar": {
+                "total_words_count": 5,
+                "mistakes_count": 0,
+                "grammatical_mistakes_frequency": 0
+            },
+            "language_complexity": {
+                "message_average_sentence_length": 6,
+                "type_token_ratio": 0.8,
+                "complexity_of_language": 0.7
+            },
+            "typing_speed": {
+                "duration": 5000,
+                "message_length": 24,
+                "typing_speed": 4.8
+            }
+        }
+    ]
+}

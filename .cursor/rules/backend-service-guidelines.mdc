@@ -1,0 +1,19 @@
+---
+description: "Stand-alone FastAPI service that exposes the profiler"
+globs:
+alwaysApply: true
+---
+
+- **Framework** — build on **FastAPI** for async performance, type-hints, and automatic Swagger docs.:contentReference[oaicite:6]{index=6}  
+- **Endpoints**  
+  - `POST /interact` → accepts `UserPrompt` JSON (see schema in pdf) and returns chatbot text plus profiler state.  
+  - `POST /feedback` → logs explicit feedback, returns `{"status": "ok"}`.  
+  - `GET /profile/{user_id}` → returns latest inferred profile vector and confidence scores.  
+- **Process Isolation**  
+  Run RL inference in a background threadpool; never block the request loop.  
+- **Security**  
+  All endpoints behind OAuth2 bearer-token; throttle to 30 req/min per token.  
+- **Logging**  
+  Log every request–response pair as structured JSON for reproducibility; store in `./data/logs/` with rollover daily.  
+- **Dependency Injection**  
+  Use FastAPI `Depends` to inject `ProfilerService`, which wraps SB3 policy + vectorizer; hot-swap model weights without restarting.  
