@@ -161,3 +161,70 @@ ui/dist-custom-elements/
 
 # Evaluation results
 evaluation/results/
+
+# Additional sensitive files and patterns
+# API Keys and Secrets
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+*secret*
+*password*
+*token*
+*credential*
+
+# Configuration files that might contain secrets
+config.local.*
+config.production.*
+config.staging.*
+secrets.*
+.secrets
+.secrets.*
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# Log files
+*.log
+logs/
+
+# Cache directories
+.cache/
+cache/
+__pycache__/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# IDE specific
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
