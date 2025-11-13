@@ -34,9 +34,20 @@ humaine-chatbot/
 │   │   ├── components/    # Web components
 │   │   ├── services/      # Frontend services
 │   │   └── trackers/      # User interaction tracking
+├── tests/                 # Test suite
+│   ├── unit/              # Unit tests
+│   ├── integration/       # Integration tests
+│   └── e2e/               # End-to-end tests
+├── scripts/                # Utility scripts
+│   ├── demos/             # Demo and example scripts
+│   ├── tools/             # Utility tools
+│   └── setup/             # Setup scripts
 ├── evaluation/            # Testing and evaluation framework
+├── docs/                  # Documentation
+│   ├── guides/            # Setup and integration guides
+│   └── summaries/         # Historical summaries and reports
 ├── data/                  # User profiles and session data
-└── docs/                  # Documentation
+└── main.py                # Application entry point
 ```
 
 ## 🛠️ Installation

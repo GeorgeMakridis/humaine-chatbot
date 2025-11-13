@@ -12,10 +12,11 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-# Add src to path
-sys.path.append('src')
+# Add project root to path
+project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, project_root)
 
-from core.openai_integration import OpenAIIntegration
+from src.core.openai_integration import OpenAIIntegration
 
 def test_openai_integration():
     """Test OpenAI integration"""

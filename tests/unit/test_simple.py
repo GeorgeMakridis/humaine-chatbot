@@ -10,8 +10,9 @@ import time
 import json
 from datetime import datetime
 
-# Add src to path
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+# Add project root to path
+project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, project_root)
 
 # Mock external dependencies for testing
 class MockLanguageTool:
@@ -54,14 +55,14 @@ sys.modules['fastapi'] = type('MockModule', (), {})
 sys.modules['uvicorn'] = type('MockModule', (), {})
 
 try:
-    from models.schemas import UserPrompt, Feedback, Session, UserProfile
-    from utils.sentiment_analyzer import SentimentAnalyzer
-    from utils.grammar_checker import GrammarChecker
-    from utils.language_complexity import LanguageComplexityAnalyzer
-    from core.metrics_collector import MetricsCollector
-    from core.user_profiler import UserProfiler
-    from core.prompt_manager import PromptManager
-    from core.dialogue_manager import DialogueManager
+    from src.models.schemas import UserPrompt, Feedback, Session, UserProfile
+    from src.utils.sentiment_analyzer import SentimentAnalyzer
+    from src.utils.grammar_checker import GrammarChecker
+    from src.utils.language_complexity import LanguageComplexityAnalyzer
+    from src.core.metrics_collector import MetricsCollector
+    from src.core.user_profiler import UserProfiler
+    from src.core.prompt_manager import PromptManager
+    from src.core.dialogue_manager import DialogueManager
     
     print("✅ All modules imported successfully!")
     
